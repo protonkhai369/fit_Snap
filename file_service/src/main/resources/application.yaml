@@ -1,0 +1,39 @@
+server:
+  port: 8083
+  servlet:
+    context-path: /file
+
+spring:
+  application:
+    name: file-service
+  datasource:
+    url: ${DATASOURCE_URL}
+    driver-class-name: org.postgresql.Driver
+    username: ${USERNAMEDB}
+    password: ${PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  servlet:
+    multipart:
+      max-file-size: 1GB
+      max-request-size: 1GB
+
+cloud:
+  aws:
+    credentials:
+      access-key: ${AWS_ACCESS_KEY}
+      secret-key: ${AWS_SECRET_KEY}
+    region:
+      static: ap-southeast-2
+    s3:
+      bucket: ${BUCKET}
+
+app:
+  file:
+    download-prefix: "http://localhost:8888/api/v1/file/media/download/"

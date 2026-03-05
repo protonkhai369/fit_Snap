@@ -1,0 +1,44 @@
+server:
+  port: 8084
+  servlet:
+    context-path: /product
+
+spring:
+  application:
+    name: product-service
+  datasource:
+    url: ${DATASOURCE_URL}
+    driver-class-name: org.postgresql.Driver
+    username: ${USERNAMEDB}
+    password: ${PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+servlet:
+  multipart:
+    max-file-size: 100MB
+    max-request-size: 100MB
+
+genai:
+  api-key: ${GEMINI_API}
+
+removebg:
+  api-key: ${REMOVEBG_API_KEY:}
+
+cloud:
+  aws:
+    credentials:
+      access-key: ${AWS_ACCESS_KEY}
+      secret-key: ${AWS_SECRET_KEY}
+    region:
+      static: ap-southeast-2
+aws:
+    s3:
+      bucket: ${BUCKET}

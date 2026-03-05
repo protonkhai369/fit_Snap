@@ -1,0 +1,27 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /profile
+
+spring:
+  application:
+    name: profile-service
+
+  datasource:
+    url: ${DATASOURCE_URL}
+    driver-class-name: org.postgresql.Driver
+    username: ${USERNAMEDB}
+    password: ${PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+      database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+app:
+  services:
+    file: ${FILE_SERVICE}
