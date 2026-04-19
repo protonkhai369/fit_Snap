@@ -1,6 +1,6 @@
-package fitsnap.genai_service.controller;
+package fitsnap.genAI_service.controller;
 
-import fitsnap.genai_service.service.GeminiTryOnService;
+import fitsnap.genAI_service.service.GeminiTryOnService;
 import fitsnap.genai_service.service.S3Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;

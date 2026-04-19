@@ -1,4 +1,4 @@
-package fitsnap.genai_service.service;
+package fitsnap.genAI_service.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
