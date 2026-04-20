@@ -1,4 +1,4 @@
-package fitsnap.genai_service.configuration;
+package fitsnap.genAI_service.configuration;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

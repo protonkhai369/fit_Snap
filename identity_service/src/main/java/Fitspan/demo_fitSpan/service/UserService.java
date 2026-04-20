@@ -7,6 +7,7 @@ import Fitspan.demo_fitSpan.dto.request.UserUpdateRequest;
 import Fitspan.demo_fitSpan.dto.response.UserResponse;
 import Fitspan.demo_fitSpan.entity.Role;
 import Fitspan.demo_fitSpan.entity.User;
+import Fitspan.demo_fitSpan.event.UserCreatedEvent;
 import Fitspan.demo_fitSpan.exception.AppException;
 import Fitspan.demo_fitSpan.exception.ErrorCode;
 import Fitspan.demo_fitSpan.mapper.ProfileMapper;
@@ -18,6 +19,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -40,6 +42,7 @@ public class UserService {
     PasswordEncoder passwordEncoder;
     ProfileMapper profileMapper;
     ProfileClient profileClient;
+    KafkaTemplate<String, Object> kafkaTemplate;
 
     public UserResponse createUser(UserRequest request) {
         if (userRepository.existsByUsername(request.getUsername()))
@@ -55,11 +58,22 @@ public class UserService {
         LocalDate dob = LocalDate.parse(formatter.format(request.getDateOfBirth())); // YYYY-MM-DD
         int age = Period.between(dob, LocalDate.now()).getYears();
 
-        var profileRequest = profileMapper.toProfileRequest(request);
-        profileRequest.setAge(age);
-        profileRequest.setUserId(user.getId());
+        UserCreatedEvent event = UserCreatedEvent.builder()
+                .userId(user.getId())
+                .firstname(request.getFirstname())
+                .lastname(request.getLastname())
+                .dateOfBirth(request.getDateOfBirth())
+                .height(request.getHeight())
+                .weight(request.getWeight())
+                .gender(request.getGender())
+                .age(age)
+                .job(request.getJob())
+                .styles(request.getStyles())
+                .colors(request.getColors())
+                .purposes(request.getPurposes())
+                .build();
 
-        var profileResponse = profileClient.createProfile(profileRequest);
+        kafkaTemplate.send("profile-creation", event);
 
         return userMapper.toUserResponse(user);
     }
@@ -97,6 +111,5 @@ public class UserService {
         User user = userRepository.findById(name).orElseThrow(() -> new AppException(ErrorCode.USER_NOTEXISITED));
         return userMapper.toUserResponse(user);
     }
-
 
 }

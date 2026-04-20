@@ -1,4 +1,4 @@
-package fitsnap.genai_service.service;
+package fitsnap.genAI_service.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
