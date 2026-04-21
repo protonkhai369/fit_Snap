@@ -3,6 +3,7 @@ package fitsnap.profile_service.kafka;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
+import fitsnap.profile_service.entity.Profile;
 import fitsnap.profile_service.event.UserCreatedEvent;
 import fitsnap.profile_service.repository.ProfileRepository;
 import lombok.AccessLevel;
@@ -24,13 +25,12 @@ public class ProfileCreationConsumer {
     public void listen(UserCreatedEvent event) {
         log.info("Received profile-creation event for userId: {}", event.getUserId());
         try {
-            // Avoid duplicate creation
             if (profileRepository.findByUserId(event.getUserId()).isPresent()) {
                 log.info("Profile already exists for userId: {}", event.getUserId());
                 return;
             }
 
-            fitsnap.profile_service.entity.Profile profile = fitsnap.profile_service.entity.Profile.builder()
+            Profile profile = Profile.builder()
                     .userId(event.getUserId())
                     .firstname(event.getFirstname())
                     .lastname(event.getLastname())

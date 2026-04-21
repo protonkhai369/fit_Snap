@@ -1,26 +1,16 @@
-package fitSnap.product_service.entity;
-
-import jakarta.persistence.*;
+package fitSnap.product_service.event;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-@Entity
-@Table(name = "products")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
+@Setter
+@Getter
+@Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Product {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+public class ProductProcessedEvent {
     String id;
-
     String userId;
-
     String name;
     String category;
     String type;
@@ -28,12 +18,7 @@ public class Product {
     String material;
     String pattern;
     String style;
-    String season;
-    String gender;
     String fit;
     String description;
-
     String imageUrl;
-
-    String status;
 }

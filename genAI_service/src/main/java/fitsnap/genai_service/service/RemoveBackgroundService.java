@@ -1,4 +1,4 @@
-package fitSnap.product_service.service;
+package fitsnap.genAI_service.service;
 
 import java.io.IOException;
 
